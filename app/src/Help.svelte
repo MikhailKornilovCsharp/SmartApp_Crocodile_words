@@ -60,7 +60,7 @@
     }
 
     .help {
-        margin-top: 15%;
+        margin-top: 12%;
         position: absolute;
         left: 50%;
         top: 100px;
