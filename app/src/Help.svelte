@@ -46,7 +46,7 @@
     <hr>
     <slot name="rules"></slot>
     <hr>
-    <button on:click={close}>Закрыть</button>
+    <button name = "Close" on:click={close}>Закрыть</button>
 </div>
 
 <style>
@@ -60,16 +60,14 @@
     }
 
     .help {
+        margin-top: 15%;
         position: absolute;
         left: 50%;
         top: 100px;
-        width: calc(100vw - 5em);
-        max-width: 32em;
-        max-height: calc(80vh - 5em);
+        width: 900px;
+        max-height: calc(85vh - 5em);
         overflow: auto;
         transform: translate(-50%, -50%);
-        padding: em;
-        border-radius: 0.4em;
         background: lemonchiffon;
         z-index: 12;
         border-radius: 6px;
