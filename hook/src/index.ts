@@ -5,13 +5,13 @@ const textToCommand = (texts: string[]) => {
     let text = texts.join(' ');
     text = text.toLocaleLowerCase();
 
-    let changeword = ['смени','покажи','новое слово','поменяй','смени','покажи новое слово','другое слово','поменяй слово','смени слово','покажи другое слово'];
+    let changeword = ['покажи слово', 'новое слово','покажи новое слово','другое слово','поменяй слово','смени слово','покажи другое слово'];
     let changemode = ['другой режим','новый режим','смени режим','поменяй режим'];
-    let helps = ['справка', 'помог', 'помощи', 'как игр', 'научи', 'почему', 'что делать', 'что умеешь'];
+    let helps = ['справка', 'помог', 'помощ', 'как игр', 'научи', 'почему', 'что делать', 'что умеешь', 'правила'];
     let greets = ['привет', 'здравствуй', 'здарова', 'здорова', 'хай', 'хеллоу'];
     let restarts = ['заново', 'новая игра', 'с начала', 'перезап', 'снова', 'по новой'];
-    let guessedright = ['угадали','угадано','выиграли','отгадали','отгадано', 'выиграно'];
-    let guessedwrong = ['не угадали','не угадано','не выиграли','не отгадали','не отгадано', 'не выиграно'];
+    let guessedright = ['угадал','угадано','выиграл','отгадал','отгадано', 'выиграно'];
+    let guessedwrong = ['не угадал','не угадано','не выиграл','не отгадал','не отгадано', 'не выиграно','неугаданно'];
 
     for (let dir of changeword) {
         if (text.includes(dir)) return {type: 'changeword'};
@@ -39,8 +39,8 @@ const textToCommand = (texts: string[]) => {
 
 function* script(r: SberRequest) {
     const rsp = r.buildRsp();
-    let changewordPhrases = ['Сделано','Готово','Новое слово'];
-    let changemodePhrases = ['Сделано','Готово','Новый режим'];
+    let changewordPhrases = ['Сделано!','Готово!','Новое слово на экране!'];
+    let changemodePhrases = ['Сделано!','Готово!','Новый режим включён!'];
     let maleFailPhrases = ['Я пока не выучил эту команду', 'Расшифровка этого займет несколько часов',
         'Над этим мне нужно подумать', 'Разработчики работают над добавлением этой команды',
         'Скоро я пойму, что это значит'];
@@ -49,7 +49,7 @@ function* script(r: SberRequest) {
         'Скоро я пойму, что это значит'];
     let GuessedRightPhrases = ['Так держать!','Превосходно!','',''];
     let GuessedWrongPhrases = ['Ничего страшного!','Всё хорошо!','',''];
-    let officialGreets = ['Здравствуйте'];
+    let officialGreets = ['Добро пожаловать в приложение «Слова для Крокодила»! Суть игры - объяснить слово с экрана, используя только мимику, жесты и движения. Я помогу вам подобрать интересные слова. Для этого выберите режим и нажмите или скажите «Новое слово».'];
     let unOfficialGreets = ['Привет', 'Привет-привет', 'Салют'];
     let { gender, appeal } = r.body.payload.character;
 
@@ -81,14 +81,14 @@ function* script(r: SberRequest) {
                 rsp.msg = changemodePhrases[phraseIndex];
                 rsp.data = command;
             }
-            else if (command.type == 'guessedwrong') {
-                let phraseIndex = Math.floor(Math.random() * GuessedWrongPhrases.length);
-                rsp.msg = GuessedWrongPhrases[phraseIndex];
-                rsp.data = command;
-            }
             else if (command.type == 'guessedright') {
                 let phraseIndex = Math.floor(Math.random() * GuessedRightPhrases.length);
                 rsp.msg = GuessedRightPhrases[phraseIndex];
+                rsp.data = command;
+            }
+            else if (command.type == 'guessedwrong') {
+                let phraseIndex = Math.floor(Math.random() * GuessedWrongPhrases.length);
+                rsp.msg = GuessedWrongPhrases[phraseIndex];
                 rsp.data = command;
             }
             else if (command.type === 'fail') {
@@ -103,7 +103,7 @@ function* script(r: SberRequest) {
                 rsp.data = command;
             }else if (command.type === 'help') {
                 rsp.data = command;
-                rsp.msg = 'Суть игры - объяснить слово с экрана без слов. Правила игры: Игрок показывает слово, используя только мимику, жесты, движения. Ему запрещается произносить слова и звуки, особенно те, по которым легко угадать слово. Запрещается губами проговаривать слова. Запрещается показывать загаданное слово по буквам, т.е. показывать слова, первые буквы которых будут складывать загаданное слово! Отгадывающие могут: задавать игроку любые вопросы; просить игрока показать синонимы; перечислять любые появляющиеся варианты. Помните, что очень многое зависит от активности тех, кто отгадывает, от их умения задавать наиболее существенные вопросы. Слово считается разгаданным, если слово произнесено именно так, как оно было загадано. Приятной игры!';
+                rsp.msg = 'Суть игры - объяснить слово с экрана, используя только мимику, жесты и движения. Кнопка «Режим»  - меняет сложность игры, в разных режимах разные слова. Кнопка «Новое слово»  - выдает новое слово из того же режима. Кнопка «Заново» - сбрасывает набранные очки. Удачной игры!';
             }else if (command.type === 'greet') {
                 if (appeal === 'official') {
                     let phraseIndex = Math.floor(Math.random() * officialGreets.length);
