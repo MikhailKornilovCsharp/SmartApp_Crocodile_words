@@ -50,9 +50,10 @@
 </div>
 
 <style>
-    .but:focus {
-        box-shadow: #f60d0d 0 0 20px;
-    }
+    @media screen and (max-width: 3900px) {
+        .but:focus {
+            box-shadow: #f60d0d 0 0 20px;
+        }
         .help-background {
             position: fixed;
             top: 0;
@@ -63,11 +64,11 @@
         }
 
         .help {
-            margin-top: 12%;
+            margin-top: -15%;
             position: absolute;
             left: 50%;
-            top: 100px;
-            width: 900px;
+            top: 0px;
+            width: 1900px;
             max-height: calc(85vh - 5em);
             overflow: auto;
             transform: translate(-50%, -50%);
@@ -76,5 +77,82 @@
             border-radius: 6px;
             box-shadow: lemonchiffon 0 0 20px;
         }
+        .but {
+            margin-top: 25px;
+            margin-left: 25px;
+            width: 600px;
+            height: 175px;
+            font-size: 100px;
+        }
+    }
+    @media screen and (max-width: 2050px) {
+        .but:focus {
+            box-shadow: #f60d0d 0 0 20px;
+        }
+        .help-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
 
+        .help {
+            margin-top: -20%;
+            position: absolute;
+            left: 50%;
+            top: 100px;
+            width: 1700px;
+            max-height: calc(85vh - 5em);
+            overflow: auto;
+            transform: translate(-50%, -50%);
+            background: lemonchiffon;
+            z-index: 12;
+            border-radius: 6px;
+            box-shadow: lemonchiffon 0 0 20px;
+            margin-left: 7%;
+        }
+        .but {
+            margin-top: 5px;
+            margin-left: 25px;
+            width: 300px;
+            height: 80px;
+            font-size: 40px;
+        }
+    }
+    @media screen and (max-width: 1300px) {
+        .but:focus {
+            box-shadow: #f60d0d 0 0 20px;
+        }
+        .help-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+        .help {
+            margin-top: -22%;
+            position: absolute;
+            left: 50%;
+            top: 100px;
+            width: 1100px;
+            max-height: calc(85vh - 5em);
+            overflow: auto;
+            transform: translate(-50%, -50%);
+            background: lemonchiffon;
+            z-index: 12;
+            border-radius: 6px;
+            box-shadow: lemonchiffon 0 0 20px;
+        }
+        .but {
+            margin-top: 5px;
+            margin-left: 25px;
+            width: 300px;
+            height: 50px;
+            font-size: 30px;
+        }
+    }
 </style>
