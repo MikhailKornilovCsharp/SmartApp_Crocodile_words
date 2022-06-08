@@ -50,27 +50,30 @@
 </div>
 
 <style>
-    .help-background {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.5);
-    }
+        .help-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
 
-    .help {
-        margin-top: 12%;
-        position: absolute;
-        left: 50%;
-        top: 100px;
-        width: 900px;
-        max-height: calc(85vh - 5em);
-        overflow: auto;
-        transform: translate(-50%, -50%);
-        background: lemonchiffon;
-        z-index: 12;
-        border-radius: 6px;
-        box-shadow: lemonchiffon 0 0 20px;
-    }
+        .help {
+            margin-top: 12%;
+            position: absolute;
+            left: 50%;
+            top: 100px;
+            width: 900px;
+            max-height: calc(85vh - 5em);
+            overflow: auto;
+            transform: translate(-50%, -50%);
+            background: lemonchiffon;
+            z-index: 12;
+            border-radius: 6px;
+            box-shadow: lemonchiffon 0 0 20px;
+        }
+        button {
+            z-index: 100;
+        }
 </style>
