@@ -46,7 +46,7 @@
     <hr>
     <slot name="rules"></slot>
     <hr>
-    <button name = "Close" on:click={close}>Закрыть</button>
+    <button  on:click={close}>Закрыть</button>
 </div>
 
 <style>
