@@ -46,10 +46,13 @@
     <hr>
     <slot name="rules"></slot>
     <hr>
-    <button  on:click={close}>Закрыть</button>
+    <button class = "but" on:click={close}>Закрыть</button>
 </div>
 
 <style>
+    .but:focus {
+        box-shadow: #f60d0d 0 0 20px;
+    }
         .help-background {
             position: fixed;
             top: 0;
@@ -73,7 +76,5 @@
             border-radius: 6px;
             box-shadow: lemonchiffon 0 0 20px;
         }
-        button {
-            z-index: 100;
-        }
+
 </style>

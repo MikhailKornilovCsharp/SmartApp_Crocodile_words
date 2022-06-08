@@ -5,8 +5,9 @@ const textToCommand = (texts: string[]) => {
     let text = texts.join(' ');
     text = text.toLocaleLowerCase();
 
+    let smartapp = ['запусти слова для крокодила'];
     let changeword = ['покажи слово', 'новое слово','покажи новое слово','другое слово','поменяй слово','смени слово','покажи другое слово'];
-    let changemode = ['режим','другой режим','новый режим','смени режим','поменяй режим'];
+    let changemode = ['режим'];
     let helps = ['справка', 'помог', 'помощ', 'как игр', 'научи', 'почему', 'что делать', 'что умеешь', 'правила'];
     let greets = ['привет', 'здравствуй', 'здарова', 'здорова', 'хай', 'хеллоу'];
     let restarts = ['заново', 'новая игра', 'с начала', 'перезап', 'снова', 'по новой'];
@@ -14,6 +15,9 @@ const textToCommand = (texts: string[]) => {
     let guessedwrong = ['не угадал','не угадано','не выиграл','не отгадал','не отгадано', 'не выиграно','неугаданно'];
     let close = ['закр','закрой помощь','скрой помощь','закрой справку', 'скрой справку', 'закрой мануал', 'скрой мануал', 'убери помощь', 'убери справку', 'убери мануал', 'поня', 'ясно', 'понял'];
 
+    for (let dir of smartapp) {
+        if (text.includes(dir)) return {type: 'smartapp'};
+    }
     for (let dir of changeword) {
         if (text.includes(dir)) return {type: 'changeword'};
     }
@@ -59,7 +63,7 @@ function* script(r: SberRequest) {
         'Скоро я пойму, что это значит. Лучше скажи «помощь» или нажми на одноимённую кнопку, возможно, это чем-то поможет'];
     let GuessedRightPhrases = ['Так держать!','Превосходно!','',''];
     let GuessedWrongPhrases = ['Ничего страшного!','Повезёт в следующий раз!','',''];
-    let officialGreets = ['Здравствуйте!'];
+    let officialGreets = ['Здравствуй!'];
     let unOfficialGreets = ['Салют!'];
     let { gender, appeal } = r.body.payload.character;
 
@@ -123,9 +127,10 @@ function* script(r: SberRequest) {
                 rsp.data = command;
             }else if (command.type === 'close') {
                 rsp.data = command;
+                rsp.msg = 'Закрываю';
             }else if (command.type === 'help') {
                 rsp.data = command;
-                rsp.msg = 'Суть игры - объяснить слово с экрана, используя только мимику, жесты и движения. Кнопка «Режим»  - меняет сложность игры, в разных режимах разные слова. Кнопка «Новое слово»  - выдает новое слово из того же режима. Кнопка «Заново» - сбрасывает набранные очки. Удачной игры!';
+                rsp.msg = 'Суть игры - объяснить слово с экрана, используя только мимику, жесты и движения. Кнопка «Режим»  - меняет сложность игры, в разных режимах разные слова. Кнопка «Новое слово»  - выдает новое слово из того же режима. Кнопка «Заново» - сбрасывает набранные очки. Удачной игры! Чтобы закрыть это окно - достаточно сказать «Закрой помощь»';
             }else if (command.type === 'greet') {
                 if (appeal === 'official') {
                     let phraseIndex = Math.floor(Math.random() * officialGreets.length);
@@ -140,6 +145,11 @@ function* script(r: SberRequest) {
                 rsp.msg = '';
                 rsp.data = command;
             }
+            else if (command.type === 'smartapp'){
+                rsp.msg = 'Запускаю';
+                rsp.data = command;
+            }
+            console.log(command);
         }
         yield rsp;
     }
