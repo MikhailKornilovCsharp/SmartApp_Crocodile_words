@@ -75,6 +75,8 @@ function* script(r: SberRequest) {
     yield rsp;
 
     while (true) {
+        gender = r.body.payload.character.gender;
+        appeal = r.body.payload.character.appeal;
         if (r.type === 'SERVER_ACTION' && r.act?.action_id === 'help') {
             rsp.data = {type: 'help'}
             rsp.msg = 'Суть игры - объяснить слово с экрана, используя только мимику, жесты и движения. Кнопка «Режим»  - меняет сложность игры, в разных режимах разные слова. Кнопка «Новое слово»  - выдает новое слово из того же режима. Кнопка «Заново» - сбрасывает набранные очки. Удачной игры! Чтобы закрыть это окно - достаточно сказать «Закрой помощь»';
@@ -147,7 +149,7 @@ function* script(r: SberRequest) {
             } else if (command.type === 'restart') {
                 rsp.msg = '';
                 rsp.data = command;
-            } else if (command.type = 'greet') {
+            } else if (command.type === 'greet') {
                 if (appeal === 'official') {
                     phraseIndex = Math.floor(Math.random() * officialGreets.length);
                     rsp.msg = officialGreets[phraseIndex] + ` Добро пожаловать в приложение «Слова для Крокодила»! Данный смартап предназначен для всем известной игры, где нужно объяснить слово с экрана, используя только мимику, жесты и движения. Здесь можно попросить новое слово, поменять режим и даже вести счёт отгаданных слов!`;
