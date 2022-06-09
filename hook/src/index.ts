@@ -146,7 +146,8 @@ function* script(r: SberRequest) {
                 rsp.data = command;
             }
             else if (command.type === 'smartapp'){
-                rsp.msg = 'Запускаю';
+                 phraseIndex = Math.floor(Math.random() * officialGreets.length);
+                rsp.msg = officialGreets[phraseIndex] + ` Добро пожаловать в приложение «Слова для Крокодила»! Данный смартап предназначен для всем известной игры, где нужно объяснить слово с экрана, используя только мимику, жесты и движения. Здесь можно попросить новое слово, поменять режим и даже вести счёт отгаданных слов!`;
                 rsp.data = command;
             }
             console.log(command);

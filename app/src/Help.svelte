@@ -51,7 +51,8 @@
 
 <style>
     @media screen and (max-width: 3900px) {
-        .but:focus {
+        .but:focus
+        {
             box-shadow: #f60d0d 0 0 20px;
         }
         .help-background {
@@ -68,7 +69,7 @@
             position: absolute;
             left: 50%;
             top: 0px;
-            width: 1900px;
+            width: 2200px;
             max-height: calc(85vh - 5em);
             overflow: auto;
             transform: translate(-50%, -50%);
@@ -111,7 +112,7 @@
             z-index: 12;
             border-radius: 6px;
             box-shadow: lemonchiffon 0 0 20px;
-            margin-left: 7%;
+            margin-left: 9%;
         }
         .but {
             margin-top: 5px;
@@ -146,6 +147,7 @@
             z-index: 12;
             border-radius: 6px;
             box-shadow: lemonchiffon 0 0 20px;
+            margin-left: 0px;
         }
         .but {
             margin-top: 5px;
