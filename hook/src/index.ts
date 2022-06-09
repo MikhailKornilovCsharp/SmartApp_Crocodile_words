@@ -144,16 +144,6 @@ function* script(r: SberRequest) {
             } else if (command.type === 'help') {
                 rsp.data = command;
                 rsp.msg = 'Суть игры - объяснить слово с экрана, используя только мимику, жесты и движения. Кнопка «Режим»  - меняет сложность игры, в разных режимах разные слова. Кнопка «Новое слово»  - выдает новое слово из того же режима. Кнопка «Заново» - сбрасывает набранные очки. Удачной игры! Чтобы закрыть это окно - достаточно сказать «Закрой помощь»';
-            } else if (command.type === 'greet') {
-                if (appeal === 'official') {
-                    let phraseIndex = Math.floor(Math.random() * officialGreets.length);
-                    phrase = officialGreets[phraseIndex];
-                } else {
-                    let phraseIndex = Math.floor(Math.random() * unOfficialGreets.length);
-                    phrase = unOfficialGreets[phraseIndex];
-                }
-                rsp.msg = phrase;
-                rsp.data = command;
             } else if (command.type === 'restart') {
                 rsp.msg = '';
                 rsp.data = command;
