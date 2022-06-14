@@ -42,6 +42,7 @@ const textToCommand = (texts: string[]) => {
     for (let dir of guessedright){
         if (text.includes(dir)) return {type: 'guessedright'};
     }
+    if (text.includes('')) return {type: 'restart'};
     return {type: 'fail'};
 }
 
