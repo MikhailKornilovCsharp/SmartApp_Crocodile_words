@@ -68,8 +68,9 @@ function* script(r: SberRequest) {
     let {gender, appeal} = r.body.payload.character;
 
     let phrase;
-    let phraseIndex = Math.floor(Math.random() * officialGreets.length);
-    phrase = officialGreets[phraseIndex] + ` Добро пожаловать в приложение «Слова для Крокодила»! Данный смартап предназначен для всем известной игры, где ${(appeal === 'official' ? 'вам' : 'тебе')} нужно объяснить слово с экрана, используя только мимику, жесты и движения. Здесь можно попросить новое слово, поменять режим, и тут даже есть счёт отгаданных слов!`;
+    let phraseIndex;
+    appeal = r.body.payload.character.appeal;
+    phrase = `${(appeal === 'official' ? 'Здравствуйте!' : 'Салют!')} Добро пожаловать в приложение «Слова для Крокодила»! Данный смартап предназначен для всем известной игры, где ${(appeal === 'official' ? 'вам' : 'тебе')} нужно объяснить слово с экрана, используя только мимику, жесты и движения. Здесь можно попросить новое слово, поменять режим, и тут даже есть счёт отгаданных слов!`;
     rsp.msg = phrase;
     rsp.data = {type: 'init'};
     yield rsp;
@@ -81,7 +82,7 @@ function* script(r: SberRequest) {
             rsp.data = {type: 'help'}
             rsp.msg = 'Суть игры - объяснить слово с экрана, используя только мимику, жесты и движения. Кнопка «Режим»  - меняет сложность игры, в разных режимах разные слова. Кнопка «Новое слово»  - выдает новое слово из того же режима. Кнопка «Заново» - сбрасывает набранные очки. Удачной игры! Чтобы закрыть это окно - достаточно сказать «Закрой помощь»';
         } else if (r.type === 'SERVER_ACTION' && r.act?.action_id === 'restart') {
-            rsp.msg = 'Начинаю заново';
+            rsp.msg = '';
             rsp.data = {type: 'restart'};
         } else if (r.type === 'SERVER_ACTION' && r.act?.action_id === 'changeword') {
             rsp.data = {type: 'changeword'};
@@ -147,7 +148,7 @@ function* script(r: SberRequest) {
                 rsp.data = command;
                 rsp.msg = 'Суть игры - объяснить слово с экрана, используя только мимику, жесты и движения. Кнопка «Режим»  - меняет сложность игры, в разных режимах разные слова. Кнопка «Новое слово»  - выдает новое слово из того же режима. Кнопка «Заново» - сбрасывает набранные очки. Удачной игры! Чтобы закрыть это окно - достаточно сказать «Закрой помощь»';
             } else if (command.type === 'restart') {
-                rsp.msg = 'Начинаю заново';
+                rsp.msg = '';
                 rsp.data = command;
             } else if (command.type === 'greet') {
                 if (appeal === 'official') {
