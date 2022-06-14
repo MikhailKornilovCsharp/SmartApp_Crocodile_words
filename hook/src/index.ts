@@ -14,7 +14,6 @@ const textToCommand = (texts: string[]) => {
     let guessedright = ['угадал','угадано','выиграл','отгадал','отгадано', 'выиграно'];
     let guessedwrong = ['не угадал','не угадано','не выиграл','не отгадал','не отгадано', 'не выиграно','неугаданно'];
     let close = ['закр','закрой помощь','скрой помощь','закрой справку', 'скрой справку', 'закрой мануал', 'скрой мануал', 'убери помощь', 'убери справку', 'убери мануал', 'поня', 'ясно', 'понял'];
-
     for (let dir of smartapp) {
         if (text.includes(dir)) return {type: 'smartapp'};
     }
@@ -42,7 +41,7 @@ const textToCommand = (texts: string[]) => {
     for (let dir of guessedright){
         if (text.includes(dir)) return {type: 'guessedright'};
     }
-    if (text.includes('')) return {type: 'restart'};
+    if (text.includes('')) return {type: 'double'};
     return {type: 'fail'};
 }
 
@@ -154,6 +153,10 @@ function* script(r: SberRequest) {
             } else if (command.type === 'smartapp') {
                     rsp.msg = ` Добро пожаловать в приложение «Слова для Крокодила»! Данный смартап предназначен для всем известной игры, где тебе нужно объяснить слово с экрана, используя только мимику, жесты и движения. Здесь можно попросить новое слово, поменять режими тут даже есть счёт отгаданных слов!`;
                     rsp.data = command;
+            }
+            else if (command.type === "double"){
+                rsp.msg = '';
+                rsp.data = {};
             }
             console.log(command);
         }
