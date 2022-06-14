@@ -70,8 +70,9 @@ function* script(r: SberRequest) {
     let phrase;
     let phraseIndex;
     appeal = r.body.payload.character.appeal;
-    phrase = `${(appeal === 'official' ? 'Здравствуйте!' : 'Салют!')} Добро пожаловать в приложение «Слова для Крокодила»! Данный смартап предназначен для всем известной игры, где ${(appeal === 'official' ? 'вам' : 'тебе')} нужно объяснить слово с экрана, используя только мимику, жесты и движения. Здесь можно попросить новое слово, поменять режим, и тут даже есть счёт отгаданных слов!`;
-    rsp.msg = phrase;
+    rsp.msgJ = `Салют! Добро пожаловать в приложение «Слова для Крокодила»! Данный смартап предназначен для всем известной игры, где вам нужно объяснить слово с экрана, используя только мимику, жесты и движения. Здесь можно попросить новое слово, поменять режим и даже вести счёт отгаданных слов!`;
+    rsp.msgA = `Здравствуйте! Добро пожаловать в приложение «Слова для Крокодила»! Данный смартап предназначен для всем известной игры, где вам нужно объяснить слово с экрана, используя только мимику, жесты и движения. Здесь можно попросить новое слово, поменять режим и даже вести счёт отгаданных слов!`;
+    rsp.msgS = `Здравствуйте! Добро пожаловать в приложение «Слова для Крокодила»! Данный смартап предназначен для всем известной игры, где вам нужно объяснить слово с экрана, используя только мимику, жесты и движения. Здесь можно попросить новое слово, поменять режим и даже вести счёт отгаданных слов!`;
     rsp.data = {type: 'init'};
     yield rsp;
 
@@ -109,19 +110,19 @@ function* script(r: SberRequest) {
                 let phraseIndex = Math.floor(Math.random() * changemodePhrases.length);
                 rsp.msg = changemodePhrases[phraseIndex];
                 rsp.data = command;
-            } else if (command.type == 'guessedright') {
+            } else if (command.type === 'guessedright') {
                 let phraseIndex = Math.floor(Math.random() * GuessedRightPhrases.length);
                 rsp.msg = GuessedRightPhrases[phraseIndex];
                 rsp.data = command;
-            } else if (command.type == 'guessedwrong') {
+            } else if (command.type === 'guessedwrong') {
                 let phraseIndex = Math.floor(Math.random() * GuessedWrongPhrases.length);
                 rsp.msg = GuessedWrongPhrases[phraseIndex];
                 rsp.data = command;
             } else if (command.type === 'fail') {
                 let {gender, appeal} = r.body.payload.character;
                 console.log(gender, appeal);
-                if (gender == 'male') {
-                    if (appeal == 'official') {
+                if (gender === 'male') {
+                    if (appeal === 'official') {
                         let phraseIndex = Math.floor(Math.random() * maleofficialFailPhrases.length);
                         phrase = maleofficialFailPhrases[phraseIndex];
                     } else {
@@ -129,7 +130,7 @@ function* script(r: SberRequest) {
                         phrase = maleno_officialFailPhrases[phraseIndex];
                     }
                 } else {
-                    if (appeal == 'official') {
+                    if (appeal === 'official') {
                         let phraseIndex = Math.floor(Math.random() * femaleofficialFailPhrases.length);
                         phrase = femaleofficialFailPhrases[phraseIndex];
                     } else {
