@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@salutejs/scenario": "^0.26.0"
+  }
+}

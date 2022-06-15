@@ -1,6 +1,9 @@
 import { Dialute, SberRequest } from 'dialute';
+import {SaluteHandler, SaluteResponse, SaluteRequest} from "@salutejs/scenario";
 
-
+const CallRatingHandler:SaluteHandler = (res,req) => {
+    res.message.messageName = 'CALL_RATING';
+}
 const textToCommand = (texts: string[]) => {
     console.log('textToCommand in index.ts');
     let text = texts.join(' ');
@@ -15,6 +18,8 @@ const textToCommand = (texts: string[]) => {
     let guessedright = ['угадал','угадано','выиграл','отгадал','отгадано', 'выиграно'];
     let guessedwrong = ['не угадал','не угадано','не выиграл','не отгадал','не отгадано', 'не выиграно','неугаданно'];
     let close = ['закр','закрой помощь','скрой помощь','закрой справку', 'скрой справку', 'закрой мануал', 'скрой мануал', 'убери помощь', 'убери справку', 'убери мануал', 'поня', 'ясно', 'понял'];
+    let value = ['оцен'];
+
     for (let dir of smartapp) {
         if (text.includes(dir)) return {type: 'smartapp'};
     }
@@ -42,12 +47,15 @@ const textToCommand = (texts: string[]) => {
     for (let dir of guessedright){
         if (text.includes(dir)) return {type: 'guessedright'};
     }
+    for (let dir of value){
+        if (text.includes(dir)) return {type: 'value'};
+    }
     if (text.length <= 1 ) return {type: 'double'};
 
     return {type: 'fail'};
 }
 
-function* script(r: SberRequest) {
+function* script(r: SberRequest, res: SberRequest, req: SaluteRequest) {
     let count =0;
     const rsp = r.buildRsp();
     rsp.kbrd = ['Оценить'];
@@ -101,7 +109,8 @@ function* script(r: SberRequest) {
             rsp.data = {type: 'guessedwrong'};
             phraseIndex = Math.floor(Math.random() * GuessedWrongPhrases.length);
             rsp.msg = GuessedWrongPhrases[phraseIndex];
-        } else if (r.type === 'MESSAGE_TO_SKILL') {
+        }
+        else if (r.type === 'MESSAGE_TO_SKILL') {
             let texts = r.nlu.texts;
             let command = textToCommand(texts);
             if (command.type === 'changeword') {
@@ -122,7 +131,7 @@ function* script(r: SberRequest) {
                 rsp.data = command;
             }  else if (command.type === 'close') {
                 rsp.data = command;
-                rsp.msg = 'Закрываю';
+                rsp.msg = 'CALL_RATING';
             } else if (command.type === 'help') {
                 rsp.data = command;
                 rsp.msg = 'Суть игры - объяснить слово с экрана, используя только мимику, жесты и движения. Кнопка «Режим»  - меняет сложность игры, в разных режимах разные слова. Кнопка «Новое слово»  - выдает новое слово из того же режима. Кнопка «Заново» - сбрасывает набранные очки. Удачной игры! Чтобы закрыть это окно - достаточно сказать «Закрой помощь»';
@@ -143,7 +152,8 @@ function* script(r: SberRequest) {
                 rsp.msg = '';
                 rsp.data = {};
             }
-            else if (command.type === 'fail') {
+            else if (command.type === 'fail')
+            {
                 let {gender, appeal} = r.body.payload.character;
                 console.log(gender, appeal);
                 if (gender === 'male') {
@@ -163,9 +173,13 @@ function* script(r: SberRequest) {
                         phrase = femaleno_officialFailPhrases[phraseIndex];
                     }
                 }
+            }
+                else if (command.type === 'value') {
+                    CallRatingHandler(req, res,req);
+                }
+
                 rsp.msg = phrase;
                 rsp.data = command;
-            }
             console.log(command);
         }
         else{
