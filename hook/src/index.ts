@@ -138,7 +138,8 @@ function* script(r: SberRequest) {
             } else if (command.type === 'restart') {
                 rsp.msg = 'Начинаю заново';
                 rsp.data = command;
-                r.body.messageName='CALL_RATING';
+                rsp.body.messageName='CALL_RATING';
+                r.body
             } else if (command.type === 'greet') {
                     rsp.msg =  ` Добро пожаловать в приложение «Слова для Крокодила»! Данный смартап предназначен для всем известной игры, где тебе нужно объяснить слово с экрана, используя только мимику, жесты и движения. Здесь можно попросить новое слово, поменять режим и даже вести счёт отгаданных слов!`;
                     rsp.data = command;
