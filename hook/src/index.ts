@@ -150,6 +150,7 @@ function* script(r: SberRequest) {
             else if (command.type === 'value') {
                 rsp.msg = 'Оценивание';
                 rsp.data = command;
+                rsp.body.projectName = "Слова для Kрокодила";
                 rsp.body.messageName = 'CALL_RATING';
             }
             else if (command.type === "double"){
