@@ -130,8 +130,8 @@ function* script(r: SberRequest, res: SberRequest, req: SaluteRequest) {
                 rsp.msg = GuessedWrongPhrases[phraseIndex];
                 rsp.data = command;
             }  else if (command.type === 'close') {
-                rsp.data = command;
-                rsp.msg = 'CALL_RATING';
+                rsp.data = 'CALL_RATING';
+                rsp.msg = 'закрываю';
             } else if (command.type === 'help') {
                 rsp.data = command;
                 rsp.msg = 'Суть игры - объяснить слово с экрана, используя только мимику, жесты и движения. Кнопка «Режим»  - меняет сложность игры, в разных режимах разные слова. Кнопка «Новое слово»  - выдает новое слово из того же режима. Кнопка «Заново» - сбрасывает набранные очки. Удачной игры! Чтобы закрыть это окно - достаточно сказать «Закрой помощь»';
