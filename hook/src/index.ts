@@ -1,9 +1,4 @@
 import { Dialute, SberRequest } from 'dialute';
-import {SaluteHandler, SaluteResponse, SaluteRequest} from "@salutejs/scenario";
-
-const CallRatingHandler:SaluteHandler = (res,req) => {
-    res.message.messageName = 'CALL_RATING';
-}
 const textToCommand = (texts: string[]) => {
     console.log('textToCommand in index.ts');
     let text = texts.join(' ');
@@ -56,7 +51,7 @@ const textToCommand = (texts: string[]) => {
 }
 
 function* script(r: SberRequest) {
-    let count =0;
+    let count = 0;
     const rsp = r.buildRsp();
     rsp.kbrd = ['Оценить'];
     let changewordPhrases = ['Сделано!', 'Готово!', 'Новое слово на экране!', 'Внимание на экран', 'Слово появилось!'];
@@ -109,8 +104,12 @@ function* script(r: SberRequest) {
             rsp.data = {type: 'guessedwrong'};
             phraseIndex = Math.floor(Math.random() * GuessedWrongPhrases.length);
             rsp.msg = GuessedWrongPhrases[phraseIndex];
-        }
-        else if (r.type === 'MESSAGE_TO_SKILL') {
+        } else if (r.type !== "MESSAGE_TO_SKILL" && r.type !== "SERVER_ACTION" &&
+            r.type !== "RUN_APP" && r.type !== "CLOSE_APP") {
+            rsp.data = {type: 'mark'};
+            rsp.msg = 'Спасибо за оценку';
+            rsp.body = {};
+        } else if (r.type === 'MESSAGE_TO_SKILL') {
             let texts = r.nlu.texts;
             let command = textToCommand(texts);
             if (command.type === 'changeword') {
@@ -151,11 +150,7 @@ function* script(r: SberRequest) {
             else if (command.type === 'value') {
                 rsp.msg = 'Оценивание';
                 rsp.data = command;
-                const k = rsp.body.messageName;
                 rsp.body.messageName = 'CALL_RATING';
-                rsp.body.text = "ehff";
-                yield rsp;
-                rsp.body.messageName = k;
             }
             else if (command.type === "double"){
                 rsp.msg = '';
@@ -190,7 +185,6 @@ function* script(r: SberRequest) {
             rsp.msg = '';
             rsp.data = {};
         }
-
         yield rsp;
     }
 }
