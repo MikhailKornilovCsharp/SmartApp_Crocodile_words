@@ -1,6 +1,5 @@
 import { Dialute, SberRequest } from 'dialute';
 
-let count =0;
 
 const textToCommand = (texts: string[]) => {
     console.log('textToCommand in index.ts');
@@ -49,6 +48,7 @@ const textToCommand = (texts: string[]) => {
 }
 
 function* script(r: SberRequest) {
+    let count =0;
     const rsp = r.buildRsp();
     rsp.kbrd = ['Оценить'];
     let changewordPhrases = ['Сделано!', 'Готово!', 'Новое слово на экране!', 'Внимание на экран', 'Слово появилось!'];
