@@ -81,6 +81,7 @@ function* script(r: SberRequest) {
 
     while (true) {
         rsp = r.buildRsp();
+        rsp.kbrd = ['Оценить'];
         gender = r.body.payload.character.gender;
         appeal = r.body.payload.character.appeal;
         if (r.type === 'SERVER_ACTION' && r.act?.action_id === 'help') {
@@ -150,7 +151,6 @@ function* script(r: SberRequest) {
             else if (command.type === 'value') {
                 rsp.msg = 'Оценивание';
                 rsp.data = command;
-                rsp.body.projectName = "Слова для Kрокодила";
                 rsp.body.messageName = 'CALL_RATING';
             }
             else if (command.type === "double"){
