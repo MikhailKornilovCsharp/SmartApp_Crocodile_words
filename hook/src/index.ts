@@ -52,7 +52,7 @@ const textToCommand = (texts: string[]) => {
 
 function* script(r: SberRequest) {
     let count = 0;
-    const rsp = r.buildRsp();
+    let rsp = r.buildRsp();
     rsp.kbrd = ['Оценить'];
     let changewordPhrases = ['Сделано!', 'Готово!', 'Новое слово на экране!', 'Внимание на экран', 'Слово появилось!'];
     let changemodePhrases = ['Сделано!', 'Готово!', 'Новый режим включён!'];
@@ -80,6 +80,7 @@ function* script(r: SberRequest) {
     yield rsp;
 
     while (true) {
+        rsp = r.buildRsp();
         gender = r.body.payload.character.gender;
         appeal = r.body.payload.character.appeal;
         if (r.type === 'SERVER_ACTION' && r.act?.action_id === 'help') {
@@ -108,7 +109,6 @@ function* script(r: SberRequest) {
             r.type !== "RUN_APP" && r.type !== "CLOSE_APP") {
             rsp.data = {type: 'mark'};
             rsp.msg = 'Спасибо за оценку';
-            rsp.body = {};
         } else if (r.type === 'MESSAGE_TO_SKILL') {
             let texts = r.nlu.texts;
             let command = textToCommand(texts);
