@@ -1,5 +1,7 @@
 import { Dialute, SberRequest } from 'dialute';
 
+let count =0;
+
 const textToCommand = (texts: string[]) => {
     console.log('textToCommand in index.ts');
     let text = texts.join(' ');
@@ -41,7 +43,7 @@ const textToCommand = (texts: string[]) => {
     for (let dir of guessedright){
         if (text.includes(dir)) return {type: 'guessedright'};
     }
-    if (text.length <= 1) return {type: 'double'};
+    if (text.length <= 1 ) return {type: 'double'};
 
     return {type: 'fail'};
 }
@@ -131,8 +133,11 @@ function* script(r: SberRequest) {
                     rsp.msg =  ` Добро пожаловать в приложение «Слова для Крокодила»! Данный смартап предназначен для всем известной игры, где тебе нужно объяснить слово с экрана, используя только мимику, жесты и движения. Здесь можно попросить новое слово, поменять режим и даже вести счёт отгаданных слов!`;
                     rsp.data = command;
             } else if (command.type === 'smartapp') {
+                if (count == 0) {
                     rsp.msg = ` Добро пожаловать в приложение «Слова для Крокодила»! Данный смартап предназначен для всем известной игры, где тебе нужно объяснить слово с экрана, используя только мимику, жесты и движения. Здесь можно попросить новое слово, поменять режими тут даже есть счёт отгаданных слов!`;
                     rsp.data = command;
+                    count+=1;
+                }
             }
             else if (command.type === "double"){
                 rsp.msg = '';
