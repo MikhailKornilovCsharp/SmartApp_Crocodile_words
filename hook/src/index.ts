@@ -42,7 +42,7 @@ const textToCommand = (texts: string[]) => {
         if (text.includes(dir)) return {type: 'guessedright'};
     }
     if (text.length <= 1) return {type: 'double'};
-    
+
     return {type: 'fail'};
 }
 
@@ -118,7 +118,27 @@ function* script(r: SberRequest) {
                 let phraseIndex = Math.floor(Math.random() * GuessedWrongPhrases.length);
                 rsp.msg = GuessedWrongPhrases[phraseIndex];
                 rsp.data = command;
-            } else if (command.type === 'fail') {
+            }  else if (command.type === 'close') {
+                rsp.data = command;
+                rsp.msg = 'Закрываю';
+            } else if (command.type === 'help') {
+                rsp.data = command;
+                rsp.msg = 'Суть игры - объяснить слово с экрана, используя только мимику, жесты и движения. Кнопка «Режим»  - меняет сложность игры, в разных режимах разные слова. Кнопка «Новое слово»  - выдает новое слово из того же режима. Кнопка «Заново» - сбрасывает набранные очки. Удачной игры! Чтобы закрыть это окно - достаточно сказать «Закрой помощь»';
+            } else if (command.type === 'restart') {
+                rsp.msg = 'Начинаю заново';
+                rsp.data = command;
+            } else if (command.type === 'greet') {
+                    rsp.msg =  ` Добро пожаловать в приложение «Слова для Крокодила»! Данный смартап предназначен для всем известной игры, где тебе нужно объяснить слово с экрана, используя только мимику, жесты и движения. Здесь можно попросить новое слово, поменять режим и даже вести счёт отгаданных слов!`;
+                    rsp.data = command;
+            } else if (command.type === 'smartapp') {
+                    rsp.msg = ` Добро пожаловать в приложение «Слова для Крокодила»! Данный смартап предназначен для всем известной игры, где тебе нужно объяснить слово с экрана, используя только мимику, жесты и движения. Здесь можно попросить новое слово, поменять режими тут даже есть счёт отгаданных слов!`;
+                    rsp.data = command;
+            }
+            else if (command.type === "double"){
+                rsp.msg = '';
+                rsp.data = {};
+            }
+            else if (command.type === 'fail') {
                 let {gender, appeal} = r.body.payload.character;
                 console.log(gender, appeal);
                 if (gender === 'male') {
@@ -140,25 +160,6 @@ function* script(r: SberRequest) {
                 }
                 rsp.msg = phrase;
                 rsp.data = command;
-            } else if (command.type === 'close') {
-                rsp.data = command;
-                rsp.msg = 'Закрываю';
-            } else if (command.type === 'help') {
-                rsp.data = command;
-                rsp.msg = 'Суть игры - объяснить слово с экрана, используя только мимику, жесты и движения. Кнопка «Режим»  - меняет сложность игры, в разных режимах разные слова. Кнопка «Новое слово»  - выдает новое слово из того же режима. Кнопка «Заново» - сбрасывает набранные очки. Удачной игры! Чтобы закрыть это окно - достаточно сказать «Закрой помощь»';
-            } else if (command.type === 'restart') {
-                rsp.msg = 'Начинаю заново';
-                rsp.data = command;
-            } else if (command.type === 'greet') {
-                    rsp.msg =  ` Добро пожаловать в приложение «Слова для Крокодила»! Данный смартап предназначен для всем известной игры, где тебе нужно объяснить слово с экрана, используя только мимику, жесты и движения. Здесь можно попросить новое слово, поменять режим и даже вести счёт отгаданных слов!`;
-                    rsp.data = command;
-            } else if (command.type === 'smartapp') {
-                    rsp.msg = ` Добро пожаловать в приложение «Слова для Крокодила»! Данный смартап предназначен для всем известной игры, где тебе нужно объяснить слово с экрана, используя только мимику, жесты и движения. Здесь можно попросить новое слово, поменять режими тут даже есть счёт отгаданных слов!`;
-                    rsp.data = command;
-            }
-            else if (command.type === "double"){
-                rsp.msg = '';
-                rsp.data = {};
             }
             console.log(command);
         }
@@ -166,6 +167,7 @@ function* script(r: SberRequest) {
             rsp.msg = '';
             rsp.data = {};
         }
+
         yield rsp;
     }
 }
