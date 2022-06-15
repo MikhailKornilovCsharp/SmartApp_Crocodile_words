@@ -151,7 +151,11 @@ function* script(r: SberRequest) {
             else if (command.type === 'value') {
                 rsp.msg = 'Оценивание';
                 rsp.data = command;
+                const k = rsp.body.messageName;
                 rsp.body.messageName = 'CALL_RATING';
+                rsp.body.text = "ehff";
+                yield rsp;
+                rsp.body.messageName = k;
             }
             else if (command.type === "double"){
                 rsp.msg = '';
