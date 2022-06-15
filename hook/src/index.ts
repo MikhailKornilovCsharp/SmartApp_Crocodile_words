@@ -55,7 +55,7 @@ const textToCommand = (texts: string[]) => {
     return {type: 'fail'};
 }
 
-function* script(r: SberRequest, res: SberRequest, req: SaluteRequest) {
+function* script(r: SberRequest) {
     let count =0;
     const rsp = r.buildRsp();
     rsp.kbrd = ['Оценить'];
@@ -130,14 +130,15 @@ function* script(r: SberRequest, res: SberRequest, req: SaluteRequest) {
                 rsp.msg = GuessedWrongPhrases[phraseIndex];
                 rsp.data = command;
             }  else if (command.type === 'close') {
-                rsp.data = 'CALL_RATING';
-                rsp.msg = 'закрываю';
+                rsp.data = command;
+                rsp.msg = 'Закрываю';
             } else if (command.type === 'help') {
                 rsp.data = command;
                 rsp.msg = 'Суть игры - объяснить слово с экрана, используя только мимику, жесты и движения. Кнопка «Режим»  - меняет сложность игры, в разных режимах разные слова. Кнопка «Новое слово»  - выдает новое слово из того же режима. Кнопка «Заново» - сбрасывает набранные очки. Удачной игры! Чтобы закрыть это окно - достаточно сказать «Закрой помощь»';
             } else if (command.type === 'restart') {
                 rsp.msg = 'Начинаю заново';
                 rsp.data = command;
+                r.body.messageName='CALL_RATING';
             } else if (command.type === 'greet') {
                     rsp.msg =  ` Добро пожаловать в приложение «Слова для Крокодила»! Данный смартап предназначен для всем известной игры, где тебе нужно объяснить слово с экрана, используя только мимику, жесты и движения. Здесь можно попросить новое слово, поменять режим и даже вести счёт отгаданных слов!`;
                     rsp.data = command;
@@ -152,8 +153,7 @@ function* script(r: SberRequest, res: SberRequest, req: SaluteRequest) {
                 rsp.msg = '';
                 rsp.data = {};
             }
-            else if (command.type === 'fail')
-            {
+            else if (command.type === 'fail') {
                 let {gender, appeal} = r.body.payload.character;
                 console.log(gender, appeal);
                 if (gender === 'male') {
@@ -173,13 +173,9 @@ function* script(r: SberRequest, res: SberRequest, req: SaluteRequest) {
                         phrase = femaleno_officialFailPhrases[phraseIndex];
                     }
                 }
-            }
-                else if (command.type === 'value') {
-                    CallRatingHandler(req, res,req);
-                }
-
                 rsp.msg = phrase;
                 rsp.data = command;
+            }
             console.log(command);
         }
         else{
